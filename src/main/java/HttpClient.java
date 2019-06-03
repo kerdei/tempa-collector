@@ -7,14 +7,12 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 class HttpClient {
 
     private static final Logger LOG = LoggerFactory.getLogger(HttpClient.class);
-
-    private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
 
     static HttpResponse post(String temperature) {
         try {
@@ -22,12 +20,11 @@ class HttpClient {
             String url = "http://localhost:8080/measurements/add";
             HttpPost post = new HttpPost(url);
 
-            String format = formatter.format(LocalDate.now());
             String json = "" +
                     "\t{\n" +
                     "        \"meterID\": 1,\n" +
                     "        \"value\": " + temperature + ",\n" +
-                    "        \"date\": \"" + format + "\",\n" +
+                    "        \"date\": \"" + LocalDateTime.now().toString() + "\",\n" +
                     "        \"userName\": \"kerdei\"\n" +
                     "    }";
             StringEntity entity = new StringEntity(json);
