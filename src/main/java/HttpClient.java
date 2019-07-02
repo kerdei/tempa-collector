@@ -1,4 +1,5 @@
 import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -6,9 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 class HttpClient {
 
@@ -30,10 +29,11 @@ class HttpClient {
             StringEntity entity = new StringEntity(json);
             post.setEntity(entity);
             post.setHeader("content-type", "application/json;charset=UTF-8");
+            LOG.info("post json: ", json);
             return client.execute(post);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        throw new NullPointerException();
+        return null;
     }
 }

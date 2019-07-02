@@ -1,4 +1,5 @@
 import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,7 +34,9 @@ class MCUNetwork {
             String temperature = new String(data, 0, packet.getLength());
             LOG.info("send temperature ", temperature);
             HttpResponse httpResponse = HttpClient.post(temperature);
-            LOG.info(httpResponse.getStatusLine().toString());
+            if (httpResponse != null) {
+                LOG.info(httpResponse.getStatusLine().toString());
+            }
         } catch (SocketException e) {
             e.printStackTrace();
         }
