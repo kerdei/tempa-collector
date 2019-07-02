@@ -1,5 +1,6 @@
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.entity.StringEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -8,6 +9,9 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
 import java.net.SocketException;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 class MCUNetwork {
 
@@ -36,6 +40,13 @@ class MCUNetwork {
             HttpResponse httpResponse = HttpClient.post(temperature);
             if (httpResponse != null) {
                 LOG.info(httpResponse.getStatusLine().toString());
+                if (!HttpClient.storedStringEntities.isEmpty()) {
+                    for (StringEntity stringEntity : HttpClient.storedStringEntities) {
+                        LOG.info("posting stored measurements");
+                        HttpClient.post(stringEntity);
+                    }
+                    HttpClient.storedStringEntities.clear();
+                }
             }
         } catch (SocketException e) {
             e.printStackTrace();
