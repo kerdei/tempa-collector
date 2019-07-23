@@ -8,15 +8,15 @@ public class Main {
     private static final Logger LOG = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) {
-        LOG.debug("Collector.listen()");
-
+        LOG.debug("START TEMPA-COLLECTOR");
         try {
-            MCUNetwork mcuNetwork = new MCUNetwork();
-            LOG.debug("mcuNetwork.listen()");
+            MCUConnection mcuConnection = new MCUConnection();
+            LOG.debug("mcuConnection.listenAndForwardTemperature");
             while (true) {
-                mcuNetwork.listen();
+                mcuConnection.listenAndFowardTemperature();
             }
         } catch (IOException e) {
+            LOG.error("IO exception at receiving");
             e.printStackTrace();
         }
 
